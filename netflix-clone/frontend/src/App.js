@@ -2,16 +2,20 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import SignUpPage from "./Pages/SignUpPage";
+import Footer from "./Components/Footer";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
 
-      <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
 
-      <Route path="/signup" element={<SignUpPage />} />
-    </Routes>
+        <Route path="/signup" element={<SignUpPage />} />
+      </Routes>
+      <Footer/>
+    </>
   );
 }
 
