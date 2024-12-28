@@ -1,24 +1,23 @@
 import React, { useState } from "react";
-import Logo from "../../assets/netflix-logo.png";
-import { Link } from "react-router-dom";
+import { assets } from "../../assets/assets";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import TV from "../../assets/tv.png";
-import Video_source from "../../assets/hero-vid.m4v";
-import stranger_lg from "../../assets/stranger-things-lg.png";
-import stranger_sm from "../../assets/stranger-things-sm.png";
-import download_icon from "../../assets/download-icon.gif";
-import device_pile from "../../assets/device-pile.png";
-import Video_device from "../../assets/video-devices.m4v";
-import Kids_img from "../../assets/kids.png";
+
 
 const AuthScreen = () => {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    navigate("/signup?email=" + email);
+  };
   return (
     <main className="w-full hero-bg relative">
       {/* Navbar */}
 
       <header className="max-w-6xl mx-auto flex justify-between items-center p-4 pb-10 ">
-        <img src={Logo} alt="logo" className="w-32 md:w-52" />
+        <img src={assets.Logo} alt="logo" className="w-32 md:w-52" />
 
         <Link to={"/login"} className="text-white bg-red-600 px-2 py-1 rounded">
           Sign in
@@ -38,7 +37,10 @@ const AuthScreen = () => {
           Ready to watch?Enter your Email to create or restart your membership
         </p>
 
-        <form className="w-1/2 flex flex-col md:flex-row gap-4">
+        <form
+          className="w-1/2 flex flex-col md:flex-row gap-4"
+          onSubmit={handleFormSubmit}
+        >
           <input
             type="email"
             placeholder="Email address"
@@ -78,7 +80,7 @@ const AuthScreen = () => {
           {/* right side */}
 
           <div className="flex-1 relative">
-            <img src={TV} alt="Tv img" className="mt-4 z-20 relative" />
+            <img src={assets.TV} alt="Tv img" className="mt-4 z-20 relative" />
 
             <video
               className="absolute top-1/2 left-1/2 h-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
@@ -87,7 +89,7 @@ const AuthScreen = () => {
               muted
               Loop
             >
-              <source src={Video_source} type="video/mp4" />
+              <source src={assets.Video_source} type="video/mp4" />
             </video>
           </div>
         </section>
@@ -104,10 +106,10 @@ const AuthScreen = () => {
           {/* left side */}
 
           <div className="flex-1 relative">
-            <img src={stranger_lg} alt="" className="mt-4" />
+            <img src={assets.stranger_lg} alt="" className="mt-4" />
 
             <div className=" flex items-center absolute bottom-5 left-1/2 -translate-x-1/2 bg-black border border-slate-500 rounded-md px-2 w-3/4 lg:w-1/2 h-24 gap-2 ">
-              <img src={stranger_sm} alt="" className="h-full" />
+              <img src={assets.stranger_sm} alt="" className="h-full" />
 
               <div className="flex justify-between items-center w-full">
                 <div className="flex flex-col gap-0">
@@ -116,7 +118,7 @@ const AuthScreen = () => {
                   <span className="text-sm text-blue-500">Downloading...</span>
                 </div>
 
-                <img src={download_icon} alt="" className="h-12" />
+                <img src={assets.download_icon} alt="" className="h-12" />
               </div>
             </div>
           </div>
@@ -157,7 +159,7 @@ const AuthScreen = () => {
           {/* right side */}
 
           <div className="flex-1 relative overflow-hidden">
-            <img src={device_pile} alt="" className="mt-4 z-20 relative" />
+            <img src={assets.device_pile} alt="" className="mt-4 z-20 relative" />
 
             <video
               playsInline
@@ -166,7 +168,7 @@ const AuthScreen = () => {
               autoPlay={true}
               className="absolute top-2 left-1/2 -translate-x-1/2 h-4/6 z-10 max-w-[63%]"
             >
-              <source src={Video_device} type="video/mp4" />
+              <source src={assets.Video_device} type="video/mp4" />
             </video>
           </div>
         </section>
@@ -183,7 +185,7 @@ const AuthScreen = () => {
           {/* left side */}
 
           <div className="flex-1">
-            <img src={Kids_img} alt="" className="mt-4" />
+            <img src={assets.Kids_img} alt="" className="mt-4" />
           </div>
 
           {/* right side */}
