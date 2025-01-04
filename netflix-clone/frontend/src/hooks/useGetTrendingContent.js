@@ -10,9 +10,9 @@ const useGetTrendingContent = () => {
     const getTrendingContent = async () => {
       const res = await axios.get(
         `http://localhost:5000/api/v1/${contentType}/trending`,
-        // {
-        //   withCredentials: true,
-        // }
+        {
+          withCredentials: true,
+        }
       );
 
       console.log("gettrendingresponse",res);
