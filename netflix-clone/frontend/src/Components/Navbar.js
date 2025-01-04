@@ -3,9 +3,18 @@ import { assets } from "../assets/assets";
 import { Menu, Search } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { useContentStore } from "../store/content";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const { user, logout } = useAuthStore();
+
+  const { contentType, setContentType } = useContentStore();
+
+  console.log("contentType:", contentType);
+  
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -20,11 +29,11 @@ const Navbar = () => {
         {/* desktop navbar items */}
 
         <div className="hidden sm:flex gap-2 items-center">
-          <Link to="/" className="hover:underline">
+          <Link to="/" className="hover:underline" onClick={()=>setContentType("movie")}>
             Movies
           </Link>
 
-          <Link to="/" className="hover:underline">
+          <Link to="/" className="hover:underline" onClick={()=>setContentType("tv")}>
             TV Shows
           </Link>
 
@@ -39,9 +48,13 @@ const Navbar = () => {
           <Search className="size-6 cursor-pointer" />
         </Link>
 
-        <img src={assets.avatar_3} alt="" className="w-5 md:w-8" />
+        <img
+          src={user.image}
+          alt="Avatar"
+          className="h-8 rounded cursor-pointer"
+        />
 
-        <LogOut className='size-6 cursor-pointer' />
+        <LogOut className="size-6 cursor-pointer" onClick={logout} />
 
         <div className="sm:hidden">
           <Menu className="size-6 cursor-pointer" onClick={toggleMobileMenu} />
@@ -52,11 +65,19 @@ const Navbar = () => {
 
       {isMobileMenuOpen && (
         <section className="sm:hidden w-full  mt-4 z-50 bg-black border rounded border-gray-800 ">
-          <Link to="/" onClick={toggleMobileMenu} className="block hover:underline p-2">
+          <Link
+            to="/"
+            onClick={toggleMobileMenu}
+            className="block hover:underline p-2"
+          >
             Movies
           </Link>
 
-          <Link to="/" onClick={toggleMobileMenu} className="block hover:underline p-2">
+          <Link
+            to="/"
+            onClick={toggleMobileMenu}
+            className="block hover:underline p-2"
+          >
             TV Shows
           </Link>
 

@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  getTrendingMovie,
-  getMovieTrailers,
-  getMovieDetails,
-  getSimilarMovies,
-  getMoviesByCategory
+	getMovieDetails,
+	getMoviesByCategory,
+	getMovieTrailers,
+	getSimilarMovies,
+	getTrendingMovie,
 } from "../controllers/movie.controller.js";
 
 const router = express.Router();

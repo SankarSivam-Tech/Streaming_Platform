@@ -1,83 +1,78 @@
-import React from "react";
-import Logo from "../assets/netflix-logo.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { assets } from "../assets/assets";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log(email, password);
-  };
+	const { login, isLoggingIn } = useAuthStore();
 
-  return (
-    <main className="w-full h-screen hero-bg">
-      <header className="max-w-6xl mx-auto flex justify-between items-center p-4 ">
-        <Link to={"/"}>
-          <img src={Logo} alt="Logo" className="w-52" />
-        </Link>
-      </header>
+	const handleLogin = (e) => {
+		e.preventDefault();
+		login({ email, password });
+	};
 
-      <article className="flex justify-center items-center mt-20 mx-3">
-        <section className="w-full max-w-md p-8 space-y-6 bg-black/60 rounded-lg shadow-md ">
-          <h1 className="text-center text-white font-bold text-2xl mb-4">
-            Login
-          </h1>
+	return (
+		<div className='h-screen w-full hero-bg'>
+			<header className='max-w-6xl mx-auto flex items-center justify-between p-4'>
+				<Link to={"/"}>
+					<img src={assets.Logo} alt='logo' className='w-52' />
+				</Link>
+			</header>
 
-          <form className="space-y-4" onSubmit={handleLogin}>
-            <div>
-              <label
-                htmlFor="email"
-                className=" font-medium text-sm text-gray-300 block"
-              >
-                Email
-              </label>
+			<div className='flex justify-center items-center mt-20 mx-3'>
+				<div className='w-full max-w-md p-8 space-y-6 bg-black/60 rounded-lg shadow-md'>
+					<h1 className='text-center text-white text-2xl font-bold mb-4'>Login</h1>
 
-              <input
-                type="email"
-                id="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 rounded-md  mt-1 bg-transparent focus:outline-none focus:ring border border-gray-700 text-white "
-              />
-            </div>
+					<form className='space-y-4' onSubmit={handleLogin}>
+						<div>
+							<label htmlFor='email' className='text-sm font-medium text-gray-300 block'>
+								Email
+							</label>
+							<input
+								type='email'
+								className='w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent text-white focus:outline-none focus:ring'
+								placeholder='you@example.com'
+								id='email'
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className=" font-medium text-sm text-gray-300 block"
-              >
-                Password
-              </label>
+						<div>
+							<label htmlFor='password' className='text-sm font-medium text-gray-300 block'>
+								Password
+							</label>
+							<input
+								type='password'
+								className='w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent text-white focus:outline-none focus:ring'
+								placeholder='••••••••'
+								id='password'
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+						</div>
 
-              <input
-                type="password"
-                id="password"
-                placeholder="******"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="px-3 py-2 rounded-md w-full mt-1 bg-transparent focus:outline-none focus:ring border border-gray-700 text-white "
-              />
-            </div>
-
-            <button className="w-full text-white bg-red-600 hover:bg-red-700 font-semibold py-2 rounded-md ">
-              Login
-            </button>
-          </form>
-
-          <section className="text-gray-400 text-center">
-            Don't have an account?{" "}
-            <Link to={"/signup"} className="text-red-500 hover:underline">
-              Sign up.
-            </Link>
-          </section>
-        </section>
-      </article>
-    </main>
-  );
+						<button
+							className='w-full py-2 bg-red-600 text-white font-semibold rounded-md
+							hover:bg-red-700
+						'
+							disabled={isLoggingIn}
+						>
+							{isLoggingIn ? "Loading..." : "Login"}
+						</button>
+					</form>
+					<div className='text-center text-gray-400'>
+						Don't have an account?{" "}
+						<Link to={"/signup"} className='text-red-500 hover:underline'>
+							Sign Up
+						</Link>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 };
-
 export default LoginPage;

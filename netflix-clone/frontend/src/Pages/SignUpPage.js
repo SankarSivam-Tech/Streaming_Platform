@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/netflix-logo.png";
+import { useAuthStore } from "../store/authStore";
 
 const SignUpPage = () => {
   const { searchParams } = new URL(document.location);
@@ -9,8 +10,13 @@ const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const { signup } = useAuthStore();
+
   const handleSignup = (e) => {
     e.preventDefault();
+
+    signup({ email, username, password });
+
     console.log(email, username, password);
   };
   return (

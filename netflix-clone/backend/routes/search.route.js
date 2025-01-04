@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  searchPerson,
-  searchMovie,
-  searchTv,
-  getSearchHistory,
-  removeItemFromSearchHistory,
+	getSearchHistory,
+	removeItemFromSearchHistory,
+	searchMovie,
+	searchPerson,
+	searchTv,
 } from "../controllers/search.controller.js";
 
 const router = express.Router();

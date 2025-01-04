@@ -1,7 +1,6 @@
 import { User } from "../models/user.model.js";
-
 import bcryptjs from "bcryptjs";
-import { generateTokenAndCookie } from "../utils/generateToken.js";
+import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 
 export async function signup(req, res) {
   try {
@@ -13,16 +12,16 @@ export async function signup(req, res) {
         .json({ success: false, message: "All fields are required" });
     }
 
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      return res.status(400).json({ success: false, message: "Invalid Email" });
+      return res.status(400).json({ success: false, message: "Invalid email" });
     }
 
     if (password.length < 6) {
       return res.status(400).json({
         success: false,
-        message: "Password must be atleast 6 characters",
+        message: "Password must be at least 6 characters",
       });
     }
 
@@ -56,21 +55,22 @@ export async function signup(req, res) {
       image,
     });
 
-    generateTokenAndCookie(newUser._id, res);
-
+    const token = generateTokenAndSetCookie(newUser._id, res);
     await newUser.save();
 
-    // Remove password from the response
     res.status(201).json({
       success: true,
+      token,
       user: {
         ...newUser._doc,
         password: "",
       },
     });
-  } catch (error) {
-    console.log("Error in Signup Controller", error.message);
 
+    // localStorage.setItem("authToken", res.token);
+    // console.log("Token stored in localStorage:", res.token);
+  } catch (error) {
+    console.log("Error in signup controller", error.message);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
@@ -78,6 +78,7 @@ export async function signup(req, res) {
 export async function login(req, res) {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
       return res
         .status(400)
@@ -87,22 +88,25 @@ export async function login(req, res) {
     const user = await User.findOne({ email: email });
     if (!user) {
       return res
-        .status(400)
-        .json({ success: false, message: "Invalid Credentials" });
+        .status(404)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     const isPasswordCorrect = await bcryptjs.compare(password, user.password);
+
     if (!isPasswordCorrect) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    generateTokenAndCookie(user._id, res);
+    const token = generateTokenAndSetCookie(user._id, res);
 
-    // Remove password from the response
+    console.log("Generated Token:", token);
+
     res.status(200).json({
       success: true,
+      token,
       user: {
         ...user._doc,
         password: "",
@@ -117,9 +121,19 @@ export async function login(req, res) {
 export async function logout(req, res) {
   try {
     res.clearCookie("jwt-netflix");
-    res.status(200).json({ success: true, message: "Logged out succesfully" });
+    res.status(200).json({ success: true, message: "Logged out successfully" });
   } catch (error) {
-    console.log("Error in Logout Controller", error.message);
+    console.log("Error in logout controller", error.message);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}
+
+export async function authCheck(req, res) {
+  try {
+    console.log("req.user:", req.user);
+    res.status(200).json({ success: true, user: req.user });
+  } catch (error) {
+    console.log("Error in authCheck controller", error.message);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
