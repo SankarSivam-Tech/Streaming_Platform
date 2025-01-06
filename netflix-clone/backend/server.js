@@ -29,10 +29,10 @@ app.use(
   })
 );
 
-app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/movie", movieRoutes);
 app.use("/api/v1/tv", tvRoutes);
-app.use("/api/v1/search", protectRoute, searchRoutes);
+app.use("/api/v1/search",searchRoutes);
 
 // if (ENV_VARS.NODE_ENV === "production") {
 // 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
