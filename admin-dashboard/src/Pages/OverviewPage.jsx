@@ -6,6 +6,7 @@ import SalesOverviewChart from "../Components/Overview/SalesOverviewChart ";
 import CategoryDistributionChart from "../Components/Overview/CategoryDistributionChart";
 import SalesChannelChart from "../Components/Overview/SalesChannelChart";
 
+
 const SALESData = [
   { name: "Jul", sales: 4200 },
   { name: "Aug", sales: 3800 },
@@ -43,7 +44,7 @@ const OverviewPage = () => {
     <main className="relative z-10 flex-1 overflow-auto ">
       <Header title="Overview" />
 
-      <article className="max-w-7xl mx-auto px-4 py-6 lg:px-8">
+      <article className="max-w-6xl mx-auto px-4 py-6 lg:px-8">
         {/* Stats */}
 
         <motion.section
@@ -84,7 +85,7 @@ const OverviewPage = () => {
           <SalesOverviewChart
             data={SALESData}
             title="Sales Overview"
-            lineColor="#6366F1"
+            lineColor="#8B5CF6"
           />
 
           <CategoryDistributionChart
@@ -93,11 +94,11 @@ const OverviewPage = () => {
             color={COLORS}
           />
 
-          <SalesChannelChart
-          data={SALES_CHANNEL_DATA}
-          title="Sales by Channel"
-          color={COLORS}
-          />
+        <SalesChannelChart
+        data={SALES_CHANNEL_DATA}
+        title="Sales by Channel"
+        color={COLORS}
+        />
         </motion.section>
       </article>
     </main>
